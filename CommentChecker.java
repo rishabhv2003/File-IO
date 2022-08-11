@@ -1,4 +1,5 @@
-import java.io.File;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -8,14 +9,17 @@ public class CommentChecker {
 
     public static void main(String[] args) throws IOException {
         commentsRemover();
-        // whiteSpaceRemover();
+        linesRemover();
+        whiteSpaceRemover();
     }
 
     public static void whiteSpaceRemover() throws IOException {
-        File file = new File("sample.c");
-        Scanner sc = new Scanner(file);
-        FileReader fr = new FileReader("sample.c");
-        FileWriter fw = new FileWriter("sample.out");
+
+    }
+    public static void linesRemover() throws IOException {
+        BufferedReader br = new BufferedReader(new FileReader("sample.out"));
+        BufferedWriter bw = new BufferedWriter(new FileWriter("sample2.out"));
+        Scanner sc = new Scanner(br);
         while (sc.hasNextLine()) {
             String s = "";
             s = s + sc.nextLine();
@@ -23,18 +27,16 @@ public class CommentChecker {
                 s = s + sc.nextLine();
             }
             System.out.println(s);
-            fw.write(s + '\n'); 
+            bw.write(s + '\n'); 
         }
-        fw.close();
-        fr.close();
+        bw.close();
+        br.close();
         sc.close();
     }
-
     public static void commentsRemover() throws IOException {
-        File file = new File("sample.c");
-        Scanner sc = new Scanner(file);
         FileReader fr = new FileReader("sample.c");
         FileWriter fw = new FileWriter("sample.out");
+        Scanner sc = new Scanner(fr);
         int flag;
         while (fr.ready()) {
             char i = (char) fr.read();
@@ -63,23 +65,8 @@ public class CommentChecker {
             }
             fw.write(i);
         }
-        FileReader fr2 = new FileReader("sample.c");
-        FileWriter fw2 = new FileWriter("sample.out");
-        while (sc.hasNextLine()) {
-            String s = "";
-            s = s + sc.nextLine();
-            while (s.length() == 0) {
-                s = s + sc.nextLine();
-            }
-            System.out.println(s);
-            fw2.write(s + '\n'); 
-        }
         fw.close();
         fr.close();
-        fr2.close();
-        fw2.close();
         sc.close();
     }
-
 }
-// ((i = (char) fr.read()) == '/') && ((i = (char) fr.read()) == '*')
